@@ -75,7 +75,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(57, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Rotation X";
+            this.label2.Text = "Rotation Z";
             // 
             // numericUpDown2
             // 

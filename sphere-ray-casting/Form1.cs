@@ -24,15 +24,24 @@ namespace sphere_ray_casting
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            Point4 cPos = new Point4(200, 0, 0, 1);
             Point4 cTarget = new Point4(0, 0, 0, 1);
             Point4 cUp = new Point4(0, 0, 1, 1);
-            Camera camera = new Camera(cPos, cTarget, cUp);
+
+            int distance = (int)numericUpDown1.Value;
+            int alpha = (int)numericUpDown2.Value;
+            int beta = (int)numericUpDown3.Value;
+
+            Point4 cPos = new Point4(0, distance, 0, 1);
+            Rotate rotate = new Rotate(0, beta, alpha);
+            Point4 rot_cPos = rotate.DoRotate(cPos);
+            Point4 rot_cUp = rotate.DoRotate(cUp);
+
+            Camera camera = new Camera(rot_cPos, cTarget, rot_cUp);
             Graphics g = e.Graphics;
             SolidBrush missBrush = new SolidBrush(Color.White);
             SolidBrush hitBrush = new SolidBrush(Color.Black);
+            SphereSet sphereSet = new SphereSet();
 
-            
             for (int x = 0; x < pictureBox1.Width; x++)
             {
                 for (int y = 0; y < pictureBox1.Height; y++)
@@ -40,7 +49,7 @@ namespace sphere_ray_casting
                     Point4 pixel = new Point4(x, y, 0, 0);
                     Ray ray = new Ray(pixel, pictureBox1.Width, pictureBox1.Height);
                     ray.Initialize(camera);
-                    if (ray.Cast() == true)
+                    if (ray.Cast(sphereSet) == true)
                     {
                         g.FillRectangle(hitBrush, x, y, 1, 1);
                         

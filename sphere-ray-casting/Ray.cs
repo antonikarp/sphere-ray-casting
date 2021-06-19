@@ -46,39 +46,30 @@ namespace sphere_ray_casting
             direction = new Point4();
             direction = camera.MultiplyInverseViewMatrix(q);
         }
-        public bool Cast()
+        public bool Cast(SphereSet sphereSet)
         {
-            Point4 sphere_center = new Point4();
-            sphere_center.x = 0;
-            sphere_center.y = 0;
-            sphere_center.z = 0;
-            int sphere_radius = 100;
-
-            Point4 diff = new Point4();
-            diff = origin;
-            diff.Subtract(sphere_center);
-
-            double A = 1;
-            double B = 2 * direction.Dot3(diff);
-            double C = diff.Dot3(diff) - sphere_radius * sphere_radius;
-            double delta = B * B - 4 * A * C;
-            if (delta >= 0)
+            foreach (Sphere s in sphereSet.spheres)
             {
-                double t1 = (-B - Math.Sqrt(delta)) / (2 * A);
-                double t2 = (-B + Math.Sqrt(delta)) / (2 * A);
-                if (t1 <= 0 || t2 <= 0)
+                Point4 diff = new Point4();
+                diff = origin;
+                diff.Subtract(s.center);
+                double A = 1;
+                double B = 2 * direction.Dot3(diff);
+                double C = diff.Dot3(diff) - s.radius * s.radius;
+                double delta = B * B - 4 * A * C;
+                if (delta >= 0)
                 {
-                    return false;
-                }
-                else
-                {
-                    return true;
+                    double t1 = (-B - Math.Sqrt(delta)) / (2 * A);
+                    double t2 = (-B + Math.Sqrt(delta)) / (2 * A);
+                    if (t1 > 0 && t2 > 0)
+                    {
+                        return true;
+                    }
                 }
             }
-            else
-            {
-                return false;
-            }
+            return false;
+            
+            
         }
     }
 }
