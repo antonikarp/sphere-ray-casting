@@ -11,5 +11,6 @@ namespace sphere_ray_casting
         public Reflection ambientReflection;
         public Reflection diffuseReflection;
         public Reflection specularReflection;
+        public int specularFocus;
     }
 }

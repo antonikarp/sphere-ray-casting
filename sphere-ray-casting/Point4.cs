@@ -67,6 +67,13 @@ namespace sphere_ray_casting
             y = y - point.y;
             z = z - point.z;
         }
+        public void Add(Point4 point)
+        {
+            x = x + point.x;
+            y = y + point.y;
+            z = z + point.z;
+        }
+
         public void Normalize()
         {
             double length = Length();
