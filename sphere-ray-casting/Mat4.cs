@@ -20,6 +20,18 @@ namespace sphere_ray_casting
                 }
             }
         }
+        public Mat4(double[,] _data)
+        {
+            data = new double[4, 4];
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    data[i, j] = _data[i, j];
+                }
+            }
+        }
+
         public Point4 GetColumn(int j)
         {
             Point4 column = new Point4();

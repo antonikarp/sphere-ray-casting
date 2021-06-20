@@ -19,29 +19,26 @@ namespace sphere_ray_casting
         }
         public Point4 DoRotate(Point4 point)
         {
-            Mat4 rotateX = new Mat4();
-            rotateX.data[0, 0] = 1;
-            rotateX.data[1, 1] = Math.Cos(alpha);
-            rotateX.data[1, 2] = -Math.Sin(alpha);
-            rotateX.data[2, 1] = Math.Sin(alpha);
-            rotateX.data[2, 2] = Math.Cos(alpha);
-            rotateX.data[3, 3] = 1;
+            Mat4 rotateX = new Mat4(new double[,] {
+                { 1, 0, 0, 0 },
+                { 0, Math.Cos(alpha), -Math.Sin(alpha), 0 },
+                { 0, Math.Sin(alpha), Math.Cos(alpha), 0 },
+                { 0, 0, 0, 1 }
+            });
 
-            Mat4 rotateY = new Mat4();
-            rotateY.data[0, 0] = Math.Cos(beta);
-            rotateY.data[0, 2] = Math.Sin(beta);
-            rotateY.data[1, 1] = 1;
-            rotateY.data[2, 0] = -Math.Sin(beta);
-            rotateY.data[2, 2] = Math.Cos(beta);
-            rotateY.data[3, 3] = 1;
+            Mat4 rotateY = new Mat4(new double[,] {
+                { Math.Cos(beta), 0, Math.Sin(beta), 0 },
+                { 0, 1, 0, 0 },
+                { -Math.Sin(beta), 0, Math.Cos(beta), 0 },
+                { 0, 0, 0, 1 }
+            });
 
-            Mat4 rotateZ = new Mat4();
-            rotateZ.data[0, 0] = Math.Cos(gamma);
-            rotateZ.data[0, 1] = -Math.Sin(gamma);
-            rotateZ.data[1, 0] = Math.Sin(gamma);
-            rotateZ.data[1, 1] = Math.Cos(gamma);
-            rotateZ.data[2, 2] = 1;
-            rotateZ.data[3, 3] = 1;
+            Mat4 rotateZ = new Mat4(new double[,] {
+                { Math.Cos(gamma), -Math.Sin(gamma), 0, 0 },
+                { Math.Sin(gamma), Math.Cos(gamma), 0, 0 },
+                { 0, 0, 1, 0 },
+                { 0, 0, 0, 1 }
+            });
 
             Point4 result;
             result = rotateZ.MultiplyPoint(rotateY.MultiplyPoint(rotateX.MultiplyPoint(point)));
