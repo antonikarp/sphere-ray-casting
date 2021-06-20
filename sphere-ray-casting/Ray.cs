@@ -13,15 +13,14 @@ namespace sphere_ray_casting
         public Point4 pixel;
         public int width;
         public int height;
-        public Ray(Point4 _pixel, int _width, int _height)
+        public Scene scene;
+        public Ray(Point4 _pixel, int _width, int _height, Scene _scene)
         {
             pixel = _pixel;
             width = _width;
             height = _height;
-        
-        }
-        public void Initialize(Camera camera)
-        {
+            scene = _scene;
+
             int center_x = width / 2;
             int center_y = height / 2;
             int d = (width / 2); //right now theta = 90 deg
@@ -40,15 +39,17 @@ namespace sphere_ray_casting
             q.Normalize();
 
             origin = new Point4();
-            origin = camera.MultiplyInverseViewMatrix(p);
+            origin = scene.camera.MultiplyInverseViewMatrix(p);
 
             q.w = 0;
             direction = new Point4();
-            direction = camera.MultiplyInverseViewMatrix(q);
+            direction = scene.camera.MultiplyInverseViewMatrix(q);
+
         }
-        public bool Cast(SphereSet sphereSet)
+        public bool Cast()
         {
-            foreach (Sphere s in sphereSet.spheres)
+           
+            foreach (Sphere s in scene.spheres)
             {
                 Point4 diff = new Point4();
                 diff = origin;
@@ -68,8 +69,6 @@ namespace sphere_ray_casting
                 }
             }
             return false;
-            
-            
         }
     }
 }

@@ -36,20 +36,20 @@ namespace sphere_ray_casting
             Point4 rot_cPos = rotate.DoRotate(cPos);
             Point4 rot_cUp = rotate.DoRotate(cUp);
 
-            Camera camera = new Camera(rot_cPos, cTarget, rot_cUp);
+            Scene scene = new Scene();
+            scene.InitializeExampleScene(rot_cPos, cTarget, rot_cUp);
+
             Graphics g = e.Graphics;
             SolidBrush missBrush = new SolidBrush(Color.White);
             SolidBrush hitBrush = new SolidBrush(Color.Black);
-            SphereSet sphereSet = new SphereSet();
 
             for (int x = 0; x < pictureBox1.Width; x++)
             {
                 for (int y = 0; y < pictureBox1.Height; y++)
                 {
                     Point4 pixel = new Point4(x, y, 0, 0);
-                    Ray ray = new Ray(pixel, pictureBox1.Width, pictureBox1.Height);
-                    ray.Initialize(camera);
-                    if (ray.Cast(sphereSet) == true)
+                    Ray ray = new Ray(pixel, pictureBox1.Width, pictureBox1.Height, scene);
+                    if (ray.Cast() == true)
                     {
                         g.FillRectangle(hitBrush, x, y, 1, 1);
                         

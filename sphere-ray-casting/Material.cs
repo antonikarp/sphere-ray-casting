@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace sphere_ray_casting
 {
-    public struct Sphere
+    public struct Material
     {
-        public Point4 center;
-        public int radius;
-        public Material material;
+        public Reflection ambientReflection;
+        public Reflection diffuseReflection;
+        public Reflection specularReflection;
     }
 }
