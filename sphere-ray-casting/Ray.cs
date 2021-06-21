@@ -27,7 +27,7 @@ namespace sphere_ray_casting
             int d = (width / 2); //right now theta = 90 deg
             Point4 p = new Point4(0, 0, 0, 1);
 
-            Point4 q = new Point4(pixel.x - center_x, pixel.y - center_y, -d, 1);
+            Point4 q = new Point4(pixel.x - center_x, -pixel.y + center_y, -d, 1);
             q.Subtract(p);
             q.Normalize();
 
