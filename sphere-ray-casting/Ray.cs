@@ -41,7 +41,8 @@ namespace sphere_ray_casting
         }
         public Intensity Cast()
         {
-            List<Tuple<Sphere, double>> hitList = new List<Tuple<Sphere, double>>();  
+            Sphere hitSphere = scene.spheres[0];
+            double hit_t = Double.PositiveInfinity;
             foreach (Sphere sphere in scene.spheres)
             {
                 Point4 diff = new Point4();
@@ -59,25 +60,26 @@ namespace sphere_ray_casting
                     double t = Math.Min(t1, t2);
                     if (t > 0)
                     {
-                        hitList.Add(Tuple.Create(sphere, t));
+                        if (t < hit_t)
+                        {
+                            hitSphere = sphere;
+                            hit_t = t;
+                        }
                         
                     }
                 }
             }
-
-            hitList.Sort((tuple1, tuple2) => (tuple1.Item2.CompareTo(tuple2.Item2)));
-            if (hitList.Count == 0)
+            if (hit_t == Double.PositiveInfinity)
             {
                 return scene.backgroundIntensity;
             }
             else
             {
                 Intensity resultIntensity;
-                double t = hitList[0].Item2;
                 Point4 p_t = new Point4(direction);
-                p_t.Multiply(t);
+                p_t.Multiply(hit_t);
                 p_t.Add(origin);
-                resultIntensity = calculateIntensity(scene, hitList[0].Item1, p_t);
+                resultIntensity = calculateIntensity(scene, hitSphere, p_t);
                 return resultIntensity;
             }
         }
